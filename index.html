@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MathScholar – Graduate Scholarships Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #111827;
+      --indigo: #4F46E5;
+      --indigo-light: #6366F1;
+      --indigo-pale: #EEF2FF;
+      --gray-50: #F9FAFB;
+      --gray-100: #F3F4F6;
+      --gray-200: #E5E7EB;
+      --gray-400: #9CA3AF;
+      --gray-600: #4B5563;
+      --gray-800: #1F2937;
+      --red: #EF4444;
+      --amber: #F59E0B;
+      --green: #10B981;
+      --white: #FFFFFF;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      min-height: 100vh;
+    }
+
+    /* ── TOP BANNER ── */
+    .banner {
+      background: var(--navy);
+      color: var(--white);
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 16px;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--indigo);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon svg { width: 20px; height: 20px; fill: var(--white); }
+
+    .logo-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--gray-600);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-links a:hover { background: var(--gray-100); color: var(--navy); }
+    .nav-links a.active { color: var(--indigo); }
+    .nav-links a svg { width: 16px; height: 16px; }
+
+    .btn-join {
+      background: var(--indigo);
+      color: var(--white) !important;
+      padding: 8px 20px !important;
+      border-radius: 10px !important;
+    }
+    .btn-join:hover { background: #4338CA !important; color: var(--white) !important; }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 72px 24px 48px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(36px, 5vw, 56px);
+      color: var(--navy);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span { color: var(--indigo); }
+
+    .hero p {
+      font-size: 16px;
+      color: var(--gray-600);
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto 40px;
+    }
+
+    /* ── SEARCH + FILTER ROW ── */
+    .search-row {
+      max-width: 880px;
+      margin: 0 auto 40px;
+      padding: 0 24px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-wrap {
+      flex: 1;
+      min-width: 260px;
+      position: relative;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      color: var(--gray-400);
+      pointer-events: none;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      padding: 14px 16px 14px 46px;
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 15px;
+      background: var(--white);
+      color: var(--gray-800);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      display: block;
+    }
+
+    .search-wrap input:focus {
+      border-color: var(--indigo);
+      box-shadow: 0 0 0 4px rgba(79,70,229,0.12);
+    }
+
+    .search-wrap input::placeholder {
+      color: var(--gray-400);
+      font-size: 14px;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 6px;
+    }
+
+    .pill {
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--gray-600);
+      font-family: inherit;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .pill:hover { background: var(--indigo-pale); color: var(--indigo); }
+    .pill.active { background: var(--indigo); color: var(--white); }
+
+    /* ── NO RESULTS ── */
+    .no-results {
+      display: none;
+      max-width: 1100px;
+      margin: 0 auto 80px;
+      padding: 60px 24px;
+      text-align: center;
+      color: var(--gray-400);
+      font-size: 15px;
+    }
+
+    .no-results svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+      opacity: 0.4;
+    }
+
+    /* ── CARDS GRID ── */
+    .cards-grid {
+      max-width: 1100px;
+      margin: 0 auto 80px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: box-shadow 0.2s, transform 0.2s;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 32px rgba(79,70,229,0.10);
+      transform: translateY(-2px);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .badge-phd     { background: #EDE9FE; color: #5B21B6; }
+    .badge-postdoc { background: #D1FAE5; color: #065F46; }
+    .badge-master  { background: #FEF3C7; color: #92400E; }
+
+    .deadline {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .deadline svg { width: 14px; height: 14px; }
+    .deadline.urgent { color: var(--red); }
+    .deadline.soon   { color: var(--amber); }
+    .deadline.fine   { color: var(--green); }
+
+    .card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 19px;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+
+    .card .org {
+      font-size: 13px;
+      color: var(--gray-600);
+      margin-top: -6px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: var(--gray-100);
+      color: var(--gray-600);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tag::before {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--indigo-light);
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--gray-100);
+    }
+
+    .view-link {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--indigo);
+      text-decoration: none;
+      transition: gap 0.15s;
+    }
+    .view-link:hover { gap: 8px; }
+
+    .ext-icon {
+      width: 28px;
+      height: 28px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray-400);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .ext-icon:hover { background: var(--indigo-pale); color: var(--indigo); }
+    .ext-icon svg { width: 14px; height: 14px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--white);
+      border-top: 1px solid var(--gray-200);
+      padding: 48px 40px 32px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand .logo { margin-bottom: 16px; }
+
+    .footer-brand p {
+      font-size: 13px;
+      color: var(--gray-400);
+      line-height: 1.7;
+      max-width: 280px;
+    }
+
+    .footer-col h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .footer-col a {
+      display: block;
+      font-size: 13px;
+      color: var(--gray-600);
+      text-decoration: none;
+      margin-bottom: 10px;
+      transition: color 0.15s;
+    }
+    .footer-col a:hover { color: var(--indigo); }
+    .footer-col p { font-size: 13px; color: var(--gray-600); line-height: 1.6; }
+    .footer-col a.mail { color: var(--indigo); }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--gray-100);
+      text-align: center;
+      font-size: 12px;
+      color: var(--gray-400);
+    }
+
+    @media (max-width: 720px) {
+      nav { padding: 0 16px; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- BANNER -->
+<div class="banner">MathScholar – Graduate Scholarships Platform</div>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6L23 9 12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+    </div>
+    <span class="logo-name">MathScholar</span>
+  </a>
+  <div class="nav-links">
+    <a href="#" class="active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Scholarships
+    </a>
+    <a href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Submit New
+    </a>
+    <a href="#">Login</a>
+    <a href="#" class="btn-join">Join</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Find Your Next <span>Math Journey</span></h1>
+  <p>Curated scholarships for Master's, PhD, and Postdoctoral research in mathematical sciences.</p>
+</section>
+
+<!-- SEARCH + FILTER -->
+<div class="search-row">
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search by title, organization, or field…"
+      oninput="applyFilters()"
+      autocomplete="off"
+    />
+  </div>
+  <div class="filter-pills">
+    <button class="pill active" onclick="setFilter('all', this)">All</button>
+    <button class="pill" onclick="setFilter('master', this)">Master</button>
+    <button class="pill" onclick="setFilter('phd', this)">PhD</button>
+    <button class="pill" onclick="setFilter('postdoc', this)">Postdoc</button>
+  </div>
+</div>
+
+<!-- CARDS -->
+<div class="cards-grid" id="cardsGrid">
+
+  <div class="card" data-type="phd" data-keywords="clay research fellowship clay mathematics institute pure math">
+    <div class="card-top">
+      <span class="badge badge-phd">PHD</span>
+      <span class="deadline urgent">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        In 6 days
+      </span>
+    </div>
+    <h3>Clay Research Fellowship</h3>
+    <p class="org">Clay Mathematics Institute</p>
+    <div class="tags"><span class="tag">PURE MATH</span></div>
+    <div class="card-footer">
+      <a href="#" class="view-link">View Details →</a>
+      <div class="ext-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+    </div>
+  </div>
+
+  <div class="card" data-type="postdoc" data-keywords="fields institute postdoctoral fellowship pure math applied math">
+    <div class="card-top">
+      <span class="badge badge-postdoc">POSTDOC</span>
+      <span class="deadline soon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        In 50 days
+      </span>
+    </div>
+    <h3>Fields Institute Postdoctoral Fellowship</h3>
+    <p class="org">Fields Institute</p>
+    <div class="tags"><span class="tag">PURE MATH</span><span class="tag">APPLIED MATH</span></div>
+    <div class="card-footer">
+      <a href="#" class="view-link">View Details →</a>
+      <div class="ext-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+    </div>
+  </div>
+
+  <div class="card" data-type="master" data-keywords="data science master scholarship tech university statistics">
+    <div class="card-top">
+      <span class="badge badge-master">MASTER</span>
+      <span class="deadline fine">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        In 96 days
+      </span>
+    </div>
+    <h3>Data Science Master's Scholarship</h3>
+    <p class="org">Tech University</p>
+    <div class="tags"><span class="tag">DATA SCIENCE</span><span class="tag">STATISTICS</span></div>
+    <div class="card-footer">
+      <a href="#" class="view-link">View Details →</a>
+      <div class="ext-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+    </div>
+  </div>
+
+  <div class="card" data-type="phd" data-keywords="nsf graduate research fellowship national science foundation applied math statistics">
+    <div class="card-top">
+      <span class="badge badge-phd">PHD</span>
+      <span class="deadline fine">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        In 120 days
+      </span>
+    </div>
+    <h3>NSF Graduate Research Fellowship</h3>
+    <p class="org">National Science Foundation</p>
+    <div class="tags"><span class="tag">APPLIED MATH</span><span class="tag">STATISTICS</span></div>
+    <div class="card-footer">
+      <a href="#" class="view-link">View Details →</a>
+      <div class="ext-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+    </div>
+  </div>
+
+  <div class="card" data-type="postdoc" data-keywords="msri postdoctoral fellowship mathematical sciences research institute pure math geometry">
+    <div class="card-top">
+      <span class="badge badge-postdoc">POSTDOC</span>
+      <span class="deadline soon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        In 38 days
+      </span>
+    </div>
+    <h3>MSRI Postdoctoral Fellowship</h3>
+    <p class="org">Mathematical Sciences Research Institute</p>
+    <div class="tags"><span class="tag">PURE MATH</span><span class="tag">GEOMETRY</span></div>
+    <div class="card-footer">
+      <a href="#" class="view-link">View Details →</a>
+      <div class="ext-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+    </div>
+  </div>
+
+  <div class="card" data-type="master" data-keywords="european mathematical society grant ems foundation applied math numerical analysis">
+    <div class="card-top">
+      <span class="badge badge-master">MASTER</span>
+      <span class="deadline fine">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        In 75 days
+      </span>
+    </div>
+    <h3>European Mathematical Society Grant</h3>
+    <p class="org">EMS Foundation</p>
+    <div class="tags"><span class="tag">APPLIED MATH</span><span class="tag">NUMERICAL ANALYSIS</span></div>
+    <div class="card-footer">
+      <a href="#" class="view-link">View Details →</a>
+      <div class="ext-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- NO RESULTS MESSAGE -->
+<div class="no-results" id="noResults">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+  </svg>
+  <p>No scholarships match your search.</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a class="logo" href="#">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6L23 9 12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+        </div>
+        <span class="logo-name">MathScholar</span>
+      </a>
+      <p>Empowering the next generation of mathematicians by connecting them with global funding opportunities.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#">Browse Scholarships</a>
+      <a href="#">Submit Opportunity</a>
+      <a href="#">Admin Access</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>Questions or feedback? Reach out at<br><a href="mailto:support@mathscholar.org" class="mail">support@mathscholar.org</a></p>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 MathScholar Platform. All rights reserved.</div>
+</footer>
+
+<script>
+  let activeFilter = 'all';
+
+  function setFilter(type, btn) {
+    activeFilter = type;
+    document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const query = document.getElementById('searchInput').value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.card');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const matchType = activeFilter === 'all' || card.dataset.type === activeFilter;
+      const matchSearch = !query || card.dataset.keywords.includes(query);
+      const show = matchType && matchSearch;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+  }
+</script>
+</body>
+</html>

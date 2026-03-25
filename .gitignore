@@ -1,0 +1,11 @@
+# Ignore system and editor files
+.config/
+.cache/
+.vscode/
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+
+# Ignore Chrome browser data
+.google-chrome/
